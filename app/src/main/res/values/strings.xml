@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="best_apps">برترین برنامه ها</string>
+    <string name="best_sellers">پرفروش ترین برنامه ها</string>
+    <string name="new_free_apps">جدیدترین رایگانی ها</string>
+    <string name="contact_menu">تماس</string>
+    <string name="updates_app">به روز رسانی ها</string>
+    <string name="home_menu">خانه</string>
+    <string name="contact_message">صفحه تماس با ما</string>
 </resources>

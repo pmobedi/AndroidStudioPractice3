@@ -6,4 +6,12 @@
     </style>
 
     <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
+    <style name="text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">right</item>
+        <item name="android:layout_marginRight">@dimen/margin_5</item>
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">@dimen/title_bar</item>
+    </style>
 </resources>
