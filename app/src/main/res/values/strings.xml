@@ -7,4 +7,5 @@
     <string name="updates_app">به روز رسانی ها</string>
     <string name="home_menu">خانه</string>
     <string name="contact_message">صفحه تماس با ما</string>
+    <string name="empty_list">لیست خالی</string>
 </resources>

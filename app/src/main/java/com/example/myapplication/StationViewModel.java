@@ -1,25 +1,33 @@
 package com.example.myapplication;
-
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.room.Room;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
 public class StationViewModel extends AndroidViewModel {
-    private StationDao stationDao;
-    private LiveData<List<Tbl_Stations>> allStations;
+    private StationRepository stationRepository;
+    private MutableLiveData<Station> stationLiveData; // تعریف stationLiveData به عنوان MutableLiveData
 
     public StationViewModel(Application application) {
         super(application);
-        AppDatabase db = Room.databaseBuilder(application, AppDatabase.class, "Bus.db").build();
-        stationDao = db.stationDao();
-        allStations = stationDao.getAllStations();
+        stationRepository = new StationRepository(application);
+        stationLiveData = new MutableLiveData<>(); // مقداردهی اولیه stationLiveData
     }
 
-    public LiveData<List<Tbl_Stations>> getAllStations() {
-        return allStations;
+
+
+    // متد برای واکشی ایستگاه بر اساس ID
+    public LiveData<Station> getStationById(int stationId) {
+        return stationRepository.getStationById(stationId); // LiveData<Station> را بازگردانید
     }
+
+    // متد برای واکشی همه ایستگاه‌ها
+    public LiveData<List<Station>> getAllStations() {
+        return stationRepository.getAllStations();
+    }
+
+
 }

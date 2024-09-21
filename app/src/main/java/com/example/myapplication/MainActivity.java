@@ -1,42 +1,49 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.Log; // اضافه کردن لاگ
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
 
+public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity"; // ثابت برای لاگ
+    // تعریف ثابت برای کلید station_id
+    public static final String EXTRA_STATION_ID = "station_id";
     private StationViewModel stationViewModel;
-    private RecyclerView recyclerView;
-    private StationAdapter stationAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // فایل XML مربوط به این Activity
+        setContentView(R.layout.activity_main);
 
-        // مرحله 1: کپی پایگاه داده از assets به internal storage
-        DatabaseCopyHelper dbCopyHelper = new DatabaseCopyHelper(this);
-        dbCopyHelper.copyDatabase(); // کپی کردن پایگاه داده
-
-        // مرحله 2: تنظیم RecyclerView
-        recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        stationAdapter = new StationAdapter(); // ایجاد آداپتر
-        recyclerView.setAdapter(stationAdapter); // تنظیم آداپتر به RecyclerView
+        recyclerView.setHasFixedSize(true);
 
-        // مرحله 3: ایجاد ViewModel و مشاهده داده‌ها
+        StationAdapter adapter = new StationAdapter();
+        recyclerView.setAdapter(adapter);
+
         stationViewModel = new ViewModelProvider(this).get(StationViewModel.class);
-        stationViewModel.getAllStations().observe(this, stations -> {
-            Log.d("MainActivity", "Number of stations: " + (stations != null ? stations.size() : 0));
-            if (stations != null && !stations.isEmpty()) {
-                stationAdapter.setStations(stations);
-            } else {
-                Log.d("MainActivity", "No data available or the list is empty");
+        stationViewModel.getAllStations().observe(this, new Observer<List<Station>>() {
+            @Override
+            public void onChanged(List<Station> stations) {
+                Log.d(TAG, "Stations loaded: " + stations.size()); // اضافه کردن لاگ
+                adapter.setStations(stations);
             }
+        });
+
+        // افزودن رویه کلیک به Adapter
+        adapter.setOnItemClickListener(station -> {
+            Log.d(TAG, "Station clicked: " + station.id); // لاگ کلیک آیتم
+            Intent intent = new Intent(MainActivity.this, StationDetailActivity.class);
+            intent.putExtra("stationId", station.id); // بررسی کنید که station.id
+            startActivity(intent);
         });
     }
 }

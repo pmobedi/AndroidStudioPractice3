@@ -38,8 +38,8 @@ dependencies {
 
     // Add the new dependencies
     implementation("androidx.recyclerview:recyclerview:1.3.0") // RecyclerView
-    implementation("androidx.room:room-runtime:2.5.0") // Room
-    annotationProcessor("androidx.room:room-compiler:2.5.0") // Room Compiler
+    implementation("androidx.room:room-runtime:2.5.2") // Room
+    annotationProcessor("androidx.room:room-compiler:2.5.2") // Room Compiler
     implementation("androidx.sqlite:sqlite:2.2.0") // SQLite
     implementation("androidx.sqlite:sqlite-ktx:2.2.0") // SQLite KTX
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1") // ViewModel KTX
