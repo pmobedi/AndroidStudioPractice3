@@ -1,4 +1,5 @@
 package com.example.myapplication;
+
 import android.os.Bundle;
 import android.util.Log; // اضافه کردن لاگ
 import android.view.LayoutInflater;
@@ -9,10 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class StationDetailFragment extends Fragment {
+import com.example.myapplication.Webervice.GetJson;
 
-    private static final String TAG = "StationDetailFragment"; // ثابت برای لاگ
-    private static final String ARG_STATION_ID = "station_id";
+import java.io.IOException;
+
+public class StationDetailFragment extends Fragment {
+    private GetJson getJson = new GetJson();
+    private static final String ARG_STATION_ID = "stationId";
     private int stationId;
 
     public static StationDetailFragment newInstance(int stationId) {
@@ -24,21 +28,32 @@ public class StationDetailFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             stationId = getArguments().getInt(ARG_STATION_ID);
-            Log.d(TAG, "StationDetailFragment created with stationId: " + stationId); // لاگ دریافت stationId
         }
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_station_detail, container, false);
-        TextView textView = view.findViewById(R.id.textView_information);
-        textView.setText("Station ID: " + stationId); // نمایش ID ایستگاه
-        Log.d(TAG, "Station ID displayed: " + stationId); // لاگ نمایش stationId
+
+        // Fetch data from the database or API
+        fetchStationDetails();
+
         return view;
+    }
+
+    private void fetchStationDetails() {
+        String url = "YOUR_API_URL_HERE"; // URL وب سرویس خود را وارد کنید
+
+        try {
+            String result = getJson.jsonRequest(url);
+            // پردازش داده‌های JSON
+        } catch (IOException e) {
+            Log.e("StationDetailFragment", "Error fetching data: " + e.getMessage());
+        }
     }
 }
